@@ -65,7 +65,6 @@
     "max-length": 20
   },
 
-  /* ===== APPS ===== */
   "group/apps": {
     "orientation": "horizontal",
     "drawer": { "transition-duration": 500, "click-to-reveal": true },
@@ -130,7 +129,6 @@
     "return-type": "json"
   },
 
-  /* ===== RELOJ ===== */
   "group/reloj": {
     "orientation": "horizontal",
     "drawer": { "transition-duration": 500, "click-to-reveal": true },
