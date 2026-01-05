@@ -1,6 +1,7 @@
 # NeoSleceWay
 
-![NeoSleceWay Banner](./assets/banner.png)
+![NeoSleceWay Banner](./assets/banner.gif)
+
 
 **NeoSleceWay** es un **panel superior minimalista y moderno para Waybar**, diseñado para **usuarios de Sway/Hyprland**.  
 Centraliza **música, sistema y aplicaciones** con un diseño elegante, colores translúcidos y bordes redondeados.
