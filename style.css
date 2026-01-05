@@ -44,13 +44,12 @@ font-size: 15px;
 margin-top: -4px;
 }
 
-/* RED (Recuperando el nombre) */
+
 #network {
 color: #89dceb;
 padding: 0 8px;
 }
 
-/* Selector corregido para mostrar el nombre al desplegar */
 #network#ssid {
 color: #cdd6f4;
 padding-left: 10px;
