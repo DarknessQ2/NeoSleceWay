@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Lista redes y las muestra en un menú flotante
+chosen_network=$(nmcli -t -f SSID device wifi list | grep -v '^--' | uniq | wofi -dmenu -p "Redes Wi-Fi")
+
+if [ -n "$chosen_network" ]; then
+    # Si la red necesita contraseña, nmcli la pedirá con una ventanita de sistema
+    nmcli device wifi connect "$chosen_network"
+fi

@@ -1,0 +1,142 @@
+{
+  "layer": "top",
+  "position": "top",
+  "margin-left": 10,
+  "margin-right": 10,
+  "margin-top": 5,
+  "height": 48,
+
+  "modules-left": ["sway/workspaces", "group/music"],
+  "modules-center": ["group/apps"],
+  "modules-right": ["group/sistema", "group/reloj"],
+
+  "sway/workspaces": {
+    "format": "{icon}",
+    "format-icons": { "default": "", "focused": "" }
+  },
+
+  /* ===== MUSICA ===== */
+  "group/music": {
+    "orientation": "horizontal",
+    "modules": ["custom/prev", "custom/play-pause", "custom/next", "group/music-info"]
+  },
+
+  "group/music-info": {
+    "orientation": "horizontal",
+    "modules": ["image#music-art", "group/music-text"]
+  },
+
+"image#music-art": {
+  "path": "/tmp/waybar-art.png",
+  "size": 32,
+  "signal": 1
+},
+
+  "custom/prev": {
+    "format": "",
+    "on-click": "playerctl previous"
+  },
+
+  "custom/play-pause": {
+    "format": "  ",
+    "on-click": "playerctl play-pause"
+  },
+
+  "custom/next": {
+    "format": " ",
+    "on-click": "playerctl next"
+  },
+
+  "group/music-text": {
+    "orientation": "vertical",
+    "modules": ["custom/music-time", "custom/music"]
+  },
+
+  "custom/music-time": {
+    "format": "{}",
+    "interval": 1,
+    "exec": "bash -c 'p=$(playerctl position 2>/dev/null); l=$(playerctl metadata mpris:length 2>/dev/null); if [ -n \"$p\" ] && [ -n \"$l\" ] && [ \"$l\" -gt 0 ]; then r=$((l/1000000 - ${p%.*})); printf \"%02d:%02d\" $((r/60)) $((r%60)); else echo \"00:00\"; fi'"
+  },
+
+  "custom/music": {
+    "format": "{}",
+    "exec": "/home/luis/.config/waybar/scripts/memory.py",
+    "interval": 1,
+    "max-length": 20
+  },
+
+  /* ===== APPS ===== */
+  "group/apps": {
+    "orientation": "horizontal",
+    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "modules": ["custom/app-folder", "wlr/taskbar"]
+  },
+
+  "custom/app-folder": { "format": "  " },
+  "wlr/taskbar": { "format": "{icon}", "icon-size": 22, "on-click": "activate" },
+
+  /* ===== SISTEMA ===== */
+  "group/sistema": {
+    "orientation": "horizontal",
+    "modules": ["group/red", "group/audio", "group/brightness", "custom/notification"]
+  },
+
+  "group/red": {
+    "orientation": "horizontal",
+    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "modules": ["network", "network#ssid"]
+  },
+
+  "network": { "format-wifi": " " },
+  "network#ssid": {
+    "format-wifi": "{essid}",
+    "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
+  },
+
+  "group/audio": {
+    "orientation": "horizontal",
+    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "modules": ["pulseaudio", "pulseaudio/slider"]
+  },
+
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-icons": [" ", "  "]
+  },
+
+  "pulseaudio/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal"
+  },
+
+  "group/brightness": {
+    "orientation": "horizontal",
+    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "modules": ["backlight", "backlight/slider"]
+  },
+
+  "backlight": { "format": " " },
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal"
+  },
+
+  "custom/notification": {
+    "format": " ",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "return-type": "json"
+  },
+
+  /* ===== RELOJ ===== */
+  "group/reloj": {
+    "orientation": "horizontal",
+    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "modules": ["clock#time", "clock#date"]
+  },
+
+  "clock#time": { "format": " {:%H:%M} " },
+  "clock#date": { "format": "  {:%d/%m/%Y}" }
+}

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ssid=$(nmcli -t -f ACTIVE,SSID dev wifi | grep '^yes' | cut -d: -f2)
+
+if [ -n "$ssid" ]; then
+  echo "$ssid"
+else
+  echo "Desconectado"
+fi
