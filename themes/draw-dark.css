@@ -1,0 +1,112 @@
+* {
+border: none;
+border-radius: 14px;
+font-family: "DaddyTimeMono Nerd Font", sans-serif;
+font-size: 15px;
+min-height: 0;
+}
+
+window#waybar {
+  background-color: rgba(30, 30, 46, 0.95);
+  border: 1.5px solid #cba6f7;
+  color: #cdd6f4;
+}
+
+#workspaces, #group-music, #group-apps, #group-sistema, #group-reloj {
+background: rgba(49, 50, 68, 0.5);
+margin: 4px 2px;
+padding: 0px 8px;
+}
+
+#image#music-art {
+margin: 4px 12px 4px 0px;
+border-radius: 6px;
+min-width: 32px;
+min-height: 32px;
+}
+
+#group-music-text {
+margin: 0;
+padding: 0;
+}
+
+#custom-music-time {
+color: #f5c2e7;
+font-size: 14px;
+font-weight: bold;
+padding: 0;
+}
+
+#custom-music {
+color: #b4befe;
+font-weight: bold;
+font-size: 15px;
+margin-top: -4px;
+}
+
+/* RED (Recuperando el nombre) */
+#network {
+color: #89dceb;
+padding: 0 8px;
+}
+
+/* Selector corregido para mostrar el nombre al desplegar */
+#network#ssid {
+color: #cdd6f4;
+padding-left: 10px;
+padding-right: 5px;
+font-size: 14px;
+font-weight: bold;
+}
+
+/* ICONOS Y OTROS */
+#custom-play-pause { color: #a6e3a1; font-size: 20px; }
+#custom-prev, #custom-next { color: #afd0fc; font-size: 18px; }
+#pulseaudio { color: #afd0fc; }
+#backlight { color: #f9e2af; }
+#custom-notification { color: #f5c2e7; }
+#clock.time { color: #cba6f7; font-weight: bold; }
+#clock.date { color: #bac2de; }
+
+scale trough {
+  background-color: #313244;
+  border-radius: 8px;
+  min-width: 70px;
+  min-height: 8px;
+  margin: 8px;
+}
+
+scale highlight {
+  background-color: #cba6f7;
+  border-radius: 8px;
+}
+/* Botón de la aplicación (el contenedor) */
+#taskbar button {
+margin: 4px 2px;
+padding: 0px 8px;
+border-radius: 10px;
+background-color: rgba(49, 50, 68, 0.5); /* Color de tu grupo sistema */
+transition: all 0.3s ease;
+}
+
+/* El icono dentro del botón */
+#taskbar button image {
+padding: 2px;
+/* Bajamos la opacidad para que el icono "herede" un poco del fondo */
+opacity: 0.6;
+}
+
+/* CUANDO LA APP ESTÁ ACTIVA: Aquí es donde cambia el tema */
+#taskbar button.active {
+background-color: #cba6f7;
+border: 1px solid #ffffff;
+}
+
+#taskbar button.active image {
+opacity: 1; /* El icono se ilumina */
+}
+
+/* Al pasar el mouse */
+#taskbar button:hover {
+background-color: rgba(203, 166, 247, 0.4);
+}

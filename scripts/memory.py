@@ -30,3 +30,4 @@ if art.startswith("file://"):
 os.utime(ART, (time(), time()))
 
 print(title[:20] if title else "")
+

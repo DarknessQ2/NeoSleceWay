@@ -1,0 +1,96 @@
+* {
+border: none;
+border-radius: 14px;
+font-family: "DaddyTimeMono Nerd Font", sans-serif;
+font-size: 15px;
+min-height: 0;
+}
+
+window#waybar {
+  background-color: rgba(35, 15, 15, 0.95);
+  border: 1.5px solid #ef4444;
+  color: #fee2e2;
+}
+
+#workspaces, #group-music, #group-apps, #group-sistema, #group-reloj {
+background: rgba(70, 30, 30, 0.55);
+margin: 4px 2px;
+padding: 0px 8px;
+}
+
+#custom-music-time {
+color: #fca5a5;
+font-size: 14px;
+font-weight: bold;
+}
+
+#custom-music {
+color: #fecaca;
+font-weight: bold;
+font-size: 15px;
+margin-top: -4px;
+}
+
+/* RED */
+#network { color: #fb7185; }
+
+/* SSID */
+#network#ssid {
+color: #fee2e2;
+padding-left: 10px;
+padding-right: 5px;
+font-size: 14px;
+font-weight: bold;
+}
+
+/* ICONOS */
+#custom-play-pause { color: #f87171; }
+#custom-prev, #custom-next { color: #fca5a5; }
+#pulseaudio { color: #ef4444; }
+#backlight { color: #fde68a; }
+#custom-notification { color: #fca5a5; }
+#clock.time { color: #ef4444; }
+#clock.date { color: #fecaca; }
+
+scale trough {
+  background-color: rgba(239, 68, 68, 0.25);
+  border-radius: 8px;
+  min-width: 70px;
+  min-height: 8px;
+  margin: 8px;
+}
+
+scale highlight {
+  background-color: #ef4444;
+  border-radius: 8px;
+}
+/* Botón de la aplicación (el contenedor) */
+#taskbar button {
+margin: 4px 2px;
+padding: 0px 8px;
+border-radius: 10px;
+background-color: rgba(49, 50, 68, 0.5); /* Color de tu grupo sistema */
+transition: all 0.3s ease;
+}
+
+/* El icono dentro del botón */
+#taskbar button image {
+padding: 2px;
+/* Bajamos la opacidad para que el icono "herede" un poco del fondo */
+opacity: 0.6;
+}
+
+/* CUANDO LA APP ESTÁ ACTIVA: Aquí es donde cambia el tema */
+#taskbar button.active {
+background-color: #ef4444;
+border: 1px solid #ef4444;
+}
+
+#taskbar button.active image {
+opacity: 1; /* El icono se ilumina */
+}
+
+/* Al pasar el mouse */
+#taskbar button:hover {
+background-color: rgba(49, 50, 68, 0.5);
+}
