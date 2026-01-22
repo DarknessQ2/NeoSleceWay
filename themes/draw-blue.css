@@ -1,96 +1,168 @@
+/*
+WAYBAR THEME: DRAW BLUE (FIXED)
+==============================
+
+GUIA RAPIDA PARA EL USUARIO (QUE TOCAR)
+--------------------------------------
+• Reloj (clock): clic izquierdo cambia formato / clic derecho calendario
+• Audio (pulseaudio): clic izquierdo mute / rueda cambia volumen
+• Red (network): clic izquierdo muestra estado
+• Batería (battery): solo visual, cambia color según nivel
+• Workspaces: clic para cambiar de escritorio
+• Ventana (window): solo informativo
+
+GRUPOS VISUALES (QUE HACE CADA UNO)
+----------------------------------
+1) Barra base: fondo, bordes y tipografía general
+2) Workspaces: escritorios activos, ocupados y urgentes
+3) Modulos sistema: red, audio, batería, cpu, memoria
+4) Tiempo: reloj y tooltip
+5) Estados especiales: warning, critical, urgent
+
+Tema enfocado SOLO en tonos azules, sin transparencias rotas
+ni bordes inconsistentes (bugs comunes corregidos).
+*/
+
+/* ==============================
+   1) CONFIGURACION GENERAL
+   ============================== */
+
 * {
-border: none;
-border-radius: 14px;
-font-family: "DaddyTimeMono Nerd Font", sans-serif;
-font-size: 15px;
-min-height: 0;
+    border: none;
+    border-radius: 10px;
+    font-family: JetBrainsMono Nerd Font, monospace;
+    font-size: 13px;
+    min-height: 0;
 }
 
 window#waybar {
-  background-color: rgba(15, 25, 45, 0.95);
-  border: 1.5px solid #60a5fa;
-  color: #e5edff;
+    background: #0b1220;
+    color: #cfe7ff;
 }
 
-#workspaces, #group-music, #group-apps, #group-sistema, #group-reloj {
-background: rgba(30, 45, 80, 0.55);
-margin: 4px 2px;
-padding: 0px 8px;
+/* ==============================
+   2) WORKSPACES
+   ============================== */
+
+#workspaces {
+    margin: 4px 6px;
+    padding: 2px;
+    background: #0f1b33;
+    border-radius: 12px;
 }
 
-#custom-music-time {
-color: #93c5fd;
-font-size: 14px;
-font-weight: bold;
+#workspaces button {
+    padding: 4px 8px;
+    margin: 2px;
+    color: #7fb8ff;
+    background: transparent;
 }
 
-#custom-music {
-color: #bfdbfe;
-font-weight: bold;
-font-size: 15px;
-margin-top: -4px;
+#workspaces button.active {
+    background: #1e4fd8;
+    color: #ffffff;
 }
 
-/* RED */
-#network { color: #38bdf8; }
-
-/* SSID */
-#network#ssid {
-color: #e5edff;
-padding-left: 10px;
-padding-right: 5px;
-font-size: 14px;
-font-weight: bold;
+#workspaces button.urgent {
+    background: #1b3b6f;
+    color: #ffb4b4;
 }
 
-/* ICONOS */
-#custom-play-pause { color: #22d3ee; }
-#custom-prev, #custom-next { color: #7dd3fc; }
-#pulseaudio { color: #60a5fa; }
-#backlight { color: #fde68a; }
-#custom-notification { color: #93c5fd; }
-#clock.time { color: #60a5fa; }
-#clock.date { color: #bfdbfe; }
-
-scale trough {
-  background-color: rgba(96, 165, 250, 0.25);
-  border-radius: 8px;
-  min-width: 70px;
-  min-height: 8px;
-  margin: 8px;
+#workspaces button:hover {
+    background: #163a7a;
 }
 
-scale highlight {
-  background-color: #60a5fa;
-  border-radius: 8px;
-}
-/* Botón de la aplicación (el contenedor) */
-#taskbar button {
-margin: 4px 2px;
-padding: 0px 8px;
-border-radius: 10px;
-background-color: rgba(49, 50, 68, 0.5); /* Color de tu grupo sistema */
-transition: all 0.3s ease;
+/* ==============================
+   3) MODULOS SISTEMA
+   ============================== */
+
+#network,
+#pulseaudio,
+#battery,
+#cpu,
+#memory {
+    margin: 4px 4px;
+    padding: 6px 10px;
+    background: #0f1b33;
+    border-radius: 10px;
+    color: #b7d9ff;
 }
 
-/* El icono dentro del botón */
-#taskbar button image {
-padding: 2px;
-/* Bajamos la opacidad para que el icono "herede" un poco del fondo */
-opacity: 0.6;
+#network.disconnected {
+    color: #6b88aa;
 }
 
-/* CUANDO LA APP ESTÁ ACTIVA: Aquí es donde cambia el tema */
-#taskbar button.active {
-background-color: #60a5fa; /* El color lila de tu tema */
-border: 1px solid #60a5fa;
+#pulseaudio.muted {
+    color: #6fa0ff;
 }
 
-#taskbar button.active image {
-opacity: 1; /* El icono se ilumina */
+#battery.charging {
+    color: #8fd3ff;
 }
 
-/* Al pasar el mouse */
-#taskbar button:hover {
-background-color: rgba(203, 166, 247, 0.4);
+#battery.warning {
+    color: #ffd27f;
+}
+
+#battery.critical {
+    color: #ff9a9a;
+}
+
+/* ==============================
+   4) RELOJ
+   ============================== */
+
+#clock {
+    margin: 4px 6px;
+    padding: 6px 14px;
+    background: #13244a;
+    border-radius: 14px;
+    font-weight: bold;
+    color: #dbeeff;
+}
+
+#clock tooltip {
+    background: #0b1220;
+    color: #cfe7ff;
+    border-radius: 10px;
+}
+
+/* ==============================
+   5) VENTANA ACTIVA
+   ============================== */
+
+#window {
+    margin: 4px 6px;
+    padding: 6px 10px;
+    background: #0f1b33;
+    border-radius: 10px;
+    color: #9ecbff;
+}
+
+/* ==============================
+   6) TRAY
+   ============================== */
+
+#tray {
+    margin: 4px 6px;
+    padding: 6px;
+    background: #0f1b33;
+    border-radius: 10px;
+}
+
+#tray menu {
+    background: #0b1220;
+    color: #cfe7ff;
+}
+
+/* ==============================
+   7) ESTADOS GENERALES
+   ============================== */
+
+.warning {
+    color: #ffd27f;
+}
+
+.critical {
+    color: #ff9a9a;
 }
