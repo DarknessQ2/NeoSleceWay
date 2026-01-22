@@ -5,29 +5,62 @@ import os
 from urllib.parse import urlparse
 from time import time
 
-ART = "/tmp/waybar-art.png"
-PLAYER = "plasma-browser-integration"
+# =========================
+# CONFIGURACIÓN UNIVERSAL
+# =========================
+
+ART_PATH = "/tmp/waybar-art.png"   # ⚠️ No cambiar
+MAX_LEN = 20                       # Largo del título mostrado
+
+# =========================
+# FUNCIONES
+# =========================
 
 def cmd(args):
+    """Ejecuta comandos de forma segura"""
     try:
         return subprocess.check_output(args, stderr=subprocess.DEVNULL).decode().strip()
     except:
         return ""
 
-# 🔹 asegurar archivo desde el arranque
-if not os.path.exists(ART):
-    open(ART, "wb").close()
+# =========================
+# INICIALIZACIÓN
+# =========================
 
-title = cmd(["playerctl", "--player", PLAYER, "metadata", "title"])
-art   = cmd(["playerctl", "--player", PLAYER, "metadata", "mpris:artUrl"])
+# Asegura que el archivo de portada exista
+if not os.path.exists(ART_PATH):
+    open(ART_PATH, "wb").close()
+
+# =========================
+# OBTENER DATOS DE MÚSICA
+# =========================
+
+title = cmd(["playerctl", "metadata", "title"])
+art   = cmd(["playerctl", "metadata", "mpris:artUrl"])
+
+# =========================
+# MANEJO DE PORTADA
+# =========================
 
 if art.startswith("file://"):
     src = urlparse(art).path
     if os.path.exists(src):
-        shutil.copyfile(src, ART)
+        try:
+            shutil.copyfile(src, ART_PATH)
+        except:
+            pass
 
-# 🔥 FORZAR CAMBIO REAL (aunque sea la misma imagen)
-os.utime(ART, (time(), time()))
+# Forzar refresco (Waybar cachea imágenes)
+try:
+    os.utime(ART_PATH, (time(), time()))
+except:
+    pass
 
-print(title[:20] if title else "")
+# =========================
+# SALIDA PARA WAYBAR
+# =========================
 
+if title:
+    print(title[:MAX_LEN])
+else:
+    print("")
