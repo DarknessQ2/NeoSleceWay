@@ -146,11 +146,11 @@
     "format-disconnected": "󰖪 "
   },
 
-  "network#ssid": {
-    "format-wifi": "{essid}",
-    "format-disconnected": "Sin conexión"
-  },
-
+"network#ssid": {
+  "format-wifi": "{essid}",
+  "format-disconnected": "Sin conexión",
+  "on-click": "bash -c '[ -x \"$HOME/.config/waybar/scripts/wifi-menu.sh\" ] && \"$HOME/.config/waybar/scripts/wifi-menu.sh\" || true'"
+}
   // ================= AUDIO =================
   // 👉 REQUIERE PipeWire / PulseAudio
   "group/audio": {
