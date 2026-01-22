@@ -1,4 +1,11 @@
 {
+  // =====================================================
+  // CONFIGURACIÓN GENERAL DE LA BARRA
+  // 👉 PUEDES TOCAR:
+  // - height → altura de la barra
+  // - position → top / bottom
+  // - margins → separación de la pantalla
+  // =====================================================
   "layer": "top",
   "position": "top",
   "margin-left": 10,
@@ -6,131 +13,216 @@
   "margin-top": 5,
   "height": 48,
 
+  // =====================================================
+  // DISTRIBUCIÓN DE LA BARRA
+  // 👉 PUEDES REORDENAR LOS GRUPOS
+  // 👉 NO BORRES "group/*" si no sabes qué hace
+  // =====================================================
   "modules-left": ["sway/workspaces", "group/music"],
   "modules-center": ["group/apps"],
   "modules-right": ["group/sistema", "group/reloj"],
 
+  // =====================================================
+  // WORKSPACES (Sway)
+  // 👉 PUEDES CAMBIAR LOS ICONOS
+  // =====================================================
   "sway/workspaces": {
     "format": "{icon}",
-    "format-icons": { "default": "", "focused": "" }
+    "format-icons": {
+      "default": "",   // workspace vacío
+      "focused": ""    // workspace activo
+    }
   },
 
-  /* ===== MUSICA ===== */
+  // =====================================================
+  // 🎵 MÚSICA (playerctl)
+  // 👉 REQUIERE: playerctl
+  // 👉 SI NO HAY MÚSICA, NO MUESTRA NADA (SAFE)
+  // =====================================================
   "group/music": {
     "orientation": "horizontal",
-    "modules": ["custom/prev", "custom/play-pause", "custom/next", "group/music-info"]
+    "modules": [
+      "custom/prev",
+      "custom/play-pause",
+      "custom/next",
+      "custom/music"
+    ]
   },
 
-  "group/music-info": {
-    "orientation": "horizontal",
-    "modules": ["image#music-art", "group/music-text"]
+  // 👉 PUEDES CAMBIAR LOS ICONOS
+  "custom/prev": {
+    "format": "",
+    "on-click": "playerctl previous 2>/dev/null || true"
   },
 
-  "image#music-art": {
-    "path": "/tmp/waybar-art.png",
-    "size": 32,
-    "interval": 1,
-    "signal": 1
+  "custom/play-pause": {
+    "format": "  ",
+    "on-click": "playerctl play-pause 2>/dev/null || true"
   },
 
-  "custom/prev": { "format": "", "on-click": "playerctl previous" },
-  "custom/play-pause": { "format": "  ", "on-click": "playerctl play-pause" },
-  "custom/next": { "format": " ", "on-click": "playerctl next" },
-
-  "group/music-text": {
-    "orientation": "vertical",
-    "modules": ["custom/music-time", "custom/music"]
+  "custom/next": {
+    "format": " ",
+    "on-click": "playerctl next 2>/dev/null || true"
   },
 
-  "custom/music-time": {
-    "format": "{}",
-    "interval": 1,
-    "exec": "bash -c 'p=$(playerctl position 2>/dev/null); l=$(playerctl metadata mpris:length 2>/dev/null); if [ -n \"$p\" ] && [ -n \"$l\" ] && [ \"$l\" -gt 0 ]; then r=$((l/1000000 - ${p%.*})); printf \"%02d:%02d\" $((r/60)) $((r%60)); else echo \"00:00\"; fi'"
-  },
-
+  // 👉 PUEDES CAMBIAR max-length
   "custom/music": {
     "format": "{}",
-    "exec": "/home/luis/.config/waybar/scripts/memory.py",
-    "interval": 1,
-    "max-length": 20
+    "interval": 2,
+    "exec": "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null || echo ''",
+    "max-length": 25
   },
 
-  /* ===== APPS ===== */
+  // =====================================================
+  // 📂 APPS + THEMES
+  // 👉 ES UN CAJÓN DESPLEGABLE
+  // 👉 PUEDES AÑADIR MÁS MODULOS AQUÍ
+  // =====================================================
   "group/apps": {
     "orientation": "horizontal",
-    "drawer": { "transition-duration": 500, "click-to-reveal": true },
-    "modules": ["custom/app-folder", "custom/theme", "wlr/taskbar"]
+    "drawer": {
+      "transition-duration": 400, // animación
+      "click-to-reveal": true
+    },
+    "modules": [
+      "custom/app-folder",
+      "custom/theme",
+      "wlr/taskbar"
+    ]
   },
 
-  "custom/app-folder": { "format": "  " },
+  // 👉 SOLO ICONO DECORATIVO
+  "custom/app-folder": {
+    "format": "  "
+  },
 
+  // =====================================================
+  // 🎨 THEMES
+  // 👉 ESTE BOTÓN EJECUTA UN SCRIPT
+  // 👉 EL USUARIO DEBE CREAR:
+  // ~/.config/waybar/scripts/waybar-theme.sh
+  // 👉 SI NO EXISTE, NO PASA NADA (SAFE)
+  // =====================================================
   "custom/theme": {
     "format": " 🎨 ",
     "tooltip": "Cambiar tema Waybar",
-    "on-click": "~/.config/waybar/scripts/waybar-theme.sh"
+    "on-click": "bash -c '[ -x \"$HOME/.config/waybar/scripts/waybar-theme.sh\" ] && \"$HOME/.config/waybar/scripts/waybar-theme.sh\" || true'"
   },
 
-  "wlr/taskbar": { "format": "{icon}", "icon-size": 22, "on-click": "activate" },
+  // 👉 MUESTRA APPS ABIERTAS
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 22,
+    "on-click": "activate"
+  },
 
-  /* ===== SISTEMA ===== */
+  // =====================================================
+  // ⚙ SISTEMA (TODO EN SUBGRUPOS)
+  // 👉 PUEDES QUITAR GRUPOS COMPLETOS SI QUIERES
+  // =====================================================
   "group/sistema": {
     "orientation": "horizontal",
-    "modules": ["group/red", "group/audio", "group/brightness", "custom/notification"]
+    "modules": [
+      "group/red",
+      "group/audio",
+      "group/brightness",
+      "custom/notification"
+    ]
   },
 
+  // ================= RED =================
   "group/red": {
     "orientation": "horizontal",
-    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "drawer": {
+      "transition-duration": 400,
+      "click-to-reveal": true
+    },
     "modules": ["network", "network#ssid"]
   },
 
   "network": {
-    "format-wifi": "  ",
+    "format-wifi": " ",
+    "format-ethernet": "󰈀 ",
     "format-disconnected": "󰖪 "
   },
 
   "network#ssid": {
     "format-wifi": "{essid}",
-    "format-disconnected": "Sin conexión",
-    "on-click": "~/.config/waybar/scripts/wifi-menu.sh"
+    "format-disconnected": "Sin conexión"
   },
 
+  // ================= AUDIO =================
+  // 👉 REQUIERE PipeWire / PulseAudio
   "group/audio": {
     "orientation": "horizontal",
-    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "drawer": {
+      "transition-duration": 400,
+      "click-to-reveal": true
+    },
     "modules": ["pulseaudio", "pulseaudio/slider"]
   },
 
   "pulseaudio": {
     "format": "{icon}",
-    "format-icons": [" ", "  "]
+    "format-icons": ["", ""]
   },
 
-  "pulseaudio/slider": { "min": 0, "max": 100, "orientation": "horizontal" },
+  "pulseaudio/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal"
+  },
 
+  // ================= BRILLO =================
+  // 👉 SOLO FUNCIONA EN LAPTOPS
+  // 👉 SI NO EXISTE BACKLIGHT, NO CRASHEA
   "group/brightness": {
     "orientation": "horizontal",
-    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "drawer": {
+      "transition-duration": 400,
+      "click-to-reveal": true
+    },
     "modules": ["backlight", "backlight/slider"]
   },
 
-  "backlight": { "format": " " },
-  "backlight/slider": { "min": 0, "max": 100, "orientation": "horizontal" },
-
-  "custom/notification": {
-    "format": " ",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "return-type": "json"
+  "backlight": {
+    "format": " "
   },
 
-  /* ===== RELOJ ===== */
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal"
+  },
+
+  // ================= NOTIFICACIONES =================
+  // 👉 REQUIERE swaync
+  "custom/notification": {
+    "format": " ",
+    "exec": "swaync-client -swb 2>/dev/null || echo ''",
+    "on-click": "swaync-client -t -sw 2>/dev/null || true",
+    "return-type": "json",
+    "interval": 2
+  },
+
+  // =====================================================
+  // 🕒 RELOJ
+  // 👉 PUEDES CAMBIAR FORMATO DE HORA Y FECHA
+  // =====================================================
   "group/reloj": {
     "orientation": "horizontal",
-    "drawer": { "transition-duration": 500, "click-to-reveal": true },
+    "drawer": {
+      "transition-duration": 400,
+      "click-to-reveal": true
+    },
     "modules": ["clock#time", "clock#date"]
   },
 
-  "clock#time": { "format": " {:%H:%M} " },
-  "clock#date": { "format": "  {:%d/%m/%Y}" }
+  "clock#time": {
+    "format": " {:%H:%M}"
+  },
+
+  "clock#date": {
+    "format": "  {:%d/%m/%Y}"
+  }
 }
