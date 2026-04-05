@@ -1,96 +1,159 @@
+/* =============================================================================
+ * Waybar Style - Catppuccin Mocha (Controles de Música con Burbujas)
+ * ============================================================================= */
+
+/* 1) VARIABLES VISUALES */
+@define-color bg-window rgba(25, 0, 10, 0.9);
+@define-color bg-main #3d0018;
+@define-color bg-hover #5a0024;
+@define-color bg-hover-soft #5a0024;
+@define-color accent #ff003c;
+@define-color accent-alpha rgba(255, 0, 60, 0.6);
+@define-color accent-urgent #ff0000;
+@define-color text-main #ff4d79;
+@define-color text-soft #a1002b;
+
 * {
-border: none;
-border-radius: 14px;
-font-family: "DaddyTimeMono Nerd Font", sans-serif;
-font-size: 15px;
-min-height: 0;
+  border: none;
+  border-radius: 16px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
+  min-height: 0;
+  transition: all 0.25s ease;
 }
 
 window#waybar {
-  background-color: rgba(35, 15, 15, 0.95);
-  border: 1.5px solid #ef4444;
-  color: #fee2e2;
+  background: @bg-window;
 }
 
-#workspaces, #group-music, #group-apps, #group-sistema, #group-reloj {
-background: rgba(70, 30, 30, 0.55);
-margin: 4px 2px;
-padding: 0px 8px;
+/* ==============================
+ * 2) BURBUJAS GENERALES
+ * ============================== */
+#workspaces,
+#group-reloj-drawer,
+#group-config-drawer,
+#network,
+#pulseaudio,
+#backlight,
+#battery,
+#cpu,
+#memory,
+#clock,
+#tray,
+#window,
+#custom-notification,
+#custom-musica {
+margin: 6px 4px;
+padding: 2px 12px;
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+font-weight: 600;
 }
 
-#custom-music-time {
-color: #fca5a5;
-font-size: 14px;
-font-weight: bold;
+/* ==============================
+ * 3) CONTROLES DE MÚSICA Y POWER (Burbujas Independientes)
+ * ============================== */
+#custom-musica,
+#custom-prev,
+#custom-play-pause,
+#custom-next,
+#custom-logout,
+#custom-suspend,
+#custom-reboot,
+#custom-power,
+#custom-config-icon {
+margin: 6px 4px;
+padding: 6px 10px; /* Ajustado para que los de música no sean gigantes */
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+font-weight: 600;
+min-width: 20px;
 }
 
-#custom-music {
-color: #fecaca;
-font-weight: bold;
-font-size: 15px;
-margin-top: -4px;
+/* ==============================
+ * 4) HOVER GLOBAL (Incluye música)
+ * ============================== */
+#workspaces:hover,
+#network:hover,
+#pulseaudio:hover,
+#clock:hover,
+#custom-prev:hover,
+#custom-play-pause:hover,
+#custom-next:hover,
+#custom-logout:hover,
+#custom-suspend:hover,
+#custom-reboot:hover,
+#custom-power:hover,
+#custom-config-icon:hover {
+border: 1px solid @accent;
+background: @bg-hover;
+color: @accent;
 }
 
-/* RED */
-#network { color: #fb7185; }
-
-/* SSID */
-#network#ssid {
-color: #fee2e2;
-padding-left: 10px;
-padding-right: 5px;
-font-size: 14px;
-font-weight: bold;
+/* ==============================
+ * 5) WORKSPACES
+ * ============================== */
+#workspaces button {
+padding: 0 5px;
+color: @text-soft;
 }
 
-/* ICONOS */
-#custom-play-pause { color: #f87171; }
-#custom-prev, #custom-next { color: #fca5a5; }
-#pulseaudio { color: #ef4444; }
-#backlight { color: #fde68a; }
-#custom-notification { color: #fca5a5; }
-#clock.time { color: #ef4444; }
-#clock.date { color: #fecaca; }
+#workspaces button.active {
+background: @accent;
+color: #1e1e2e;
+}
+
+#workspaces button.urgent {
+background: @accent-urgent;
+color: #1e1e2e;
+}
+
+/* ==============================
+ * 6) SLIDERS Y TOOLTIP
+ * ============================== */
+
+#custom-musica {
+opacity: 1; /* VAR_MUSICA_OP */
+margin: 4px; /* VAR_MUSICA_MAR */
+padding: 4px; /* VAR_MUSICA_PAD */
+}
+
+#custom-prev,
+#custom-play-pause,
+#custom-next {
+opacity: 0; min-width: 0px; margin: 0px; padding: 0px; font-size: 0px; border: 0px solid @accent-alpha;
+background:  @bg-hover;
+color: @accent;
+opacity: 1; min-width: 20px; margin: 6px 4px; padding: 10px 10px; font-size: 13px; border: 1px solid @accent-alpha;
+
+}
+
+
+#custom-musica {
+color: @text-soft;
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+margin: 4px; /* VAR_MUSICA_MAR */
+padding: 4px;
+}
 
 scale trough {
-  background-color: rgba(239, 68, 68, 0.25);
-  border-radius: 8px;
+  background-color: @bg-hover;
+  border-radius: 10px;
   min-width: 70px;
-  min-height: 8px;
-  margin: 8px;
 }
 
 scale highlight {
-  background-color: #ef4444;
-  border-radius: 8px;
-}
-/* Botón de la aplicación (el contenedor) */
-#taskbar button {
-margin: 4px 2px;
-padding: 0px 8px;
-border-radius: 10px;
-background-color: rgba(49, 50, 68, 0.5); /* Color de tu grupo sistema */
-transition: all 0.3s ease;
+  background-color: @accent;
+  border-radius: 10px;
 }
 
-/* El icono dentro del botón */
-#taskbar button image {
-padding: 2px;
-/* Bajamos la opacidad para que el icono "herede" un poco del fondo */
-opacity: 0.6;
-}
-
-/* CUANDO LA APP ESTÁ ACTIVA: Aquí es donde cambia el tema */
-#taskbar button.active {
-background-color: #ef4444;
-border: 1px solid #ef4444;
-}
-
-#taskbar button.active image {
-opacity: 1; /* El icono se ilumina */
-}
-
-/* Al pasar el mouse */
-#taskbar button:hover {
-background-color: rgba(49, 50, 68, 0.5);
+tooltip {
+  background: #1e1e2e;
+  color: @text-main;
+  border: 1px solid @accent;
+  border-radius: 14px;
 }

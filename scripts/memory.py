@@ -1,66 +1,41 @@
 #!/usr/bin/env python3
 import subprocess
-import shutil
+import json
+import sys
 import os
-from urllib.parse import urlparse
-from time import time
 
-# =========================
-# CONFIGURACIÓN UNIVERSAL
-# =========================
+def main():
+    # Caracteres de barras híbridos (vertical + lateral ultra suave)
+    bars_chars = [" ", "▁","▂","▃","▄","▅","▆","▇","█","▉","▊","▋","▌","▍","▎","▏"]
 
-ART_PATH = "/tmp/waybar-art.png"   # ⚠️ No cambiar
-MAX_LEN = 20                       # Largo del título mostrado
+    # Comando para ejecutar cava
+    cmd = ["cava", "-p", os.path.expanduser("~/.config/cava/config_waybar")]
 
-# =========================
-# FUNCIONES
-# =========================
+    # Iniciamos el proceso
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
 
-def cmd(args):
-    """Ejecuta comandos de forma segura"""
     try:
-        return subprocess.check_output(args, stderr=subprocess.DEVNULL).decode().strip()
-    except:
-        return ""
+        for line in process.stdout:
+            # CAVA en modo ascii raw escupe: 0;1;4;...;
+            values = line.strip().split(';')[:-1]
+            if not values:
+                continue
 
-# =========================
-# INICIALIZACIÓN
-# =========================
+            bar_string = ""
+            for v in values:
+                try:
+                    idx = int(v)
+                    # Ajuste dinámico al tamaño del array (IMPORTANTE con más niveles)
+                    idx = max(0, min(idx, len(bars_chars) - 1))
+                    bar_string += bars_chars[idx]
+                except:
+                    bar_string += " "
 
-# Asegura que el archivo de portada exista
-if not os.path.exists(ART_PATH):
-    open(ART_PATH, "wb").close()
+            print(json.dumps({"text": bar_string, "icon": "󰎈"}), flush=True)
 
-# =========================
-# OBTENER DATOS DE MÚSICA
-# =========================
+    except Exception:
+        process.terminate()
+        sys.exit(1)
 
-title = cmd(["playerctl", "metadata", "title"])
-art   = cmd(["playerctl", "metadata", "mpris:artUrl"])
-
-# =========================
-# MANEJO DE PORTADA
-# =========================
-
-if art.startswith("file://"):
-    src = urlparse(art).path
-    if os.path.exists(src):
-        try:
-            shutil.copyfile(src, ART_PATH)
-        except:
-            pass
-
-# Forzar refresco (Waybar cachea imágenes)
-try:
-    os.utime(ART_PATH, (time(), time()))
-except:
-    pass
-
-# =========================
-# SALIDA PARA WAYBAR
-# =========================
-
-if title:
-    print(title[:MAX_LEN])
-else:
-    print("")
+if __name__ == "__main__":
+    main()

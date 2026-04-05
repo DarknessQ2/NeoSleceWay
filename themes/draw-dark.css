@@ -1,175 +1,159 @@
-/* =====================================================
-   CONFIGURACIÓN GLOBAL
-   👉 PUEDES TOCAR:
-   - font-family (si no tienes la fuente)
-   - font-size (tamaño general)
-   - border-radius (qué tan redondo es todo)
-   ===================================================== */
+/* =============================================================================
+ * Waybar Style - Catppuccin Mocha (Controles de Música con Burbujas)
+ * ============================================================================= */
+
+/* 1) VARIABLES VISUALES */
+@define-color bg-window rgba(30, 30, 46, 0.85);
+@define-color bg-main #313244;
+@define-color bg-hover #45475a;
+@define-color bg-hover-soft #585b70;
+@define-color accent #cba6f7;
+@define-color accent-alpha rgba(203, 166, 247, 0.6);
+@define-color accent-urgent #f38ba8;
+@define-color text-main #cdd6f4;
+@define-color text-soft #89b4fa;
+
 * {
   border: none;
-  border-radius: 14px;
-  font-family: "DaddyTimeMono Nerd Font", sans-serif;
-  font-size: 15px;
+  border-radius: 16px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
   min-height: 0;
+  transition: all 0.25s ease;
 }
 
-/* =====================================================
-   CONTENEDOR PRINCIPAL DE WAYBAR
-   👉 PUEDES TOCAR:
-   - background-color (transparencia / color base)
-   - border color
-   - color (texto general)
-   ===================================================== */
 window#waybar {
-  background-color: rgba(30, 30, 46, 0.95);
-  border: 1.5px solid #cba6f7;
-  color: #cdd6f4;
+  background: @bg-window;
 }
 
-/* =====================================================
-   GRUPOS PRINCIPALES
-   👉 PUEDES TOCAR:
-   - background (color de cada bloque)
-   - margin / padding (espaciado)
-   👉 NO CAMBIES LOS IDs
-   ===================================================== */
+/* ==============================
+ * 2) BURBUJAS GENERALES
+ * ============================== */
 #workspaces,
-#group-music,
-#group-apps,
-#group-sistema,
-#group-reloj {
-  background: rgba(49, 50, 68, 0.5);
-  margin: 4px 2px;
-  padding: 0px 8px;
+#group-reloj-drawer,
+#group-config-drawer,
+#network,
+#pulseaudio,
+#backlight,
+#battery,
+#cpu,
+#memory,
+#clock,
+#tray,
+#window,
+#custom-notification,
+#custom-musica {
+margin: 6px 4px;
+padding: 2px 12px;
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+font-weight: 600;
 }
 
-/* =====================================================
-   🎵 ARTE DE MÚSICA
-   👉 PUEDES TOCAR:
-   - border-radius
-   - tamaño
-   ===================================================== */
-#image#music-art {
-  margin: 4px 12px 4px 0px;
-  border-radius: 6px;
-  min-width: 32px;
-  min-height: 32px;
-}
-
-/* Texto de música */
-#group-music-text {
-  margin: 0;
-  padding: 0;
-}
-
-/* Tiempo restante de canción */
-#custom-music-time {
-  color: #f5c2e7;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 0;
-}
-
-/* Nombre de canción */
-#custom-music {
-  color: #b4befe;
-  font-weight: bold;
-  font-size: 15px;
-  margin-top: -4px;
-}
-
-/* =====================================================
-   🌐 RED
-   👉 PUEDES TOCAR:
-   - colores
-   - font-size
-   ===================================================== */
-#network {
-  color: #89dceb;
-  padding: 0 8px;
-}
-
-/* Nombre de la red (SSID) */
-#network#ssid {
-  color: #cdd6f4;
-  padding-left: 10px;
-  padding-right: 5px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-/* =====================================================
-   ICONOS INDIVIDUALES
-   👉 PUEDES CAMBIAR SOLO COLORES Y TAMAÑOS
-   ===================================================== */
-#custom-play-pause { color: #a6e3a1; font-size: 20px; }
+/* ==============================
+ * 3) CONTROLES DE MÚSICA Y POWER (Burbujas Independientes)
+ * ============================== */
+#custom-musica,
 #custom-prev,
-#custom-next { color: #afd0fc; font-size: 18px; }
-
-#pulseaudio { color: #afd0fc; }
-#backlight { color: #f9e2af; }
-#custom-notification { color: #f5c2e7; }
-
-#clock.time {
-  color: #cba6f7;
-  font-weight: bold;
+#custom-play-pause,
+#custom-next,
+#custom-logout,
+#custom-suspend,
+#custom-reboot,
+#custom-power,
+#custom-config-icon {
+margin: 6px 4px;
+padding: 6px 10px; /* Ajustado para que los de música no sean gigantes */
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+font-weight: 600;
+min-width: 20px;
 }
 
-#clock.date {
-  color: #bac2de;
+/* ==============================
+ * 4) HOVER GLOBAL (Incluye música)
+ * ============================== */
+#workspaces:hover,
+#network:hover,
+#pulseaudio:hover,
+#clock:hover,
+#custom-prev:hover,
+#custom-play-pause:hover,
+#custom-next:hover,
+#custom-logout:hover,
+#custom-suspend:hover,
+#custom-reboot:hover,
+#custom-power:hover,
+#custom-config-icon:hover {
+border: 1px solid @accent;
+background: @bg-hover;
+color: @accent;
 }
 
-/* =====================================================
-   SLIDERS (VOLUMEN / BRILLO)
-   👉 PUEDES TOCAR:
-   - colores
-   - tamaño
-   ===================================================== */
+/* ==============================
+ * 5) WORKSPACES
+ * ============================== */
+#workspaces button {
+padding: 0 5px;
+color: @text-soft;
+}
+
+#workspaces button.active {
+background: @accent;
+color: #1e1e2e;
+}
+
+#workspaces button.urgent {
+background: @accent-urgent;
+color: #1e1e2e;
+}
+
+/* ==============================
+ * 6) SLIDERS Y TOOLTIP
+ * ============================== */
+
+#custom-musica {
+
+opacity: 1; /* VAR_MUSICA_OP */
+margin: 4px; /* VAR_MUSICA_MAR */
+padding: 4px; /* VAR_MUSICA_PAD */
+}
+#custom-prev,
+#custom-play-pause,
+#custom-next {
+opacity: 0; min-width: 0px; margin: 0px; padding: 0px; font-size: 0px; border: 0px solid @accent-alpha;
+background:  @bg-hover;
+color: @accent;
+opacity: 1; min-width: 20px; margin: 6px 4px; padding: 10px 10px; font-size: 13px; border: 1px solid @accent-alpha;
+
+}
+
+
+#custom-musica {
+color: @text-soft;
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+margin: 4px; /* VAR_MUSICA_MAR */
+padding: 4px;
+}
+
 scale trough {
-  background-color: #313244;
-  border-radius: 8px;
+  background-color: @bg-hover;
+  border-radius: 10px;
   min-width: 70px;
-  min-height: 8px;
-  margin: 8px;
 }
 
 scale highlight {
-  background-color: #cba6f7;
-  border-radius: 8px;
-}
-
-/* =====================================================
-   TASKBAR (APPS ABIERTAS)
-   👉 PUEDES TOCAR:
-   - background-color
-   - border-radius
-   - hover
-   ===================================================== */
-#taskbar button {
-  margin: 4px 2px;
-  padding: 0px 8px;
+  background-color: @accent;
   border-radius: 10px;
-  background-color: rgba(49, 50, 68, 0.5);
-  transition: all 0.3s ease;
 }
 
-/* Icono dentro del botón */
-#taskbar button image {
-  padding: 2px;
-  opacity: 0.6;
-}
-
-/* APP ACTIVA */
-#taskbar button.active {
-  background-color: #cba6f7;
-  border: 1px solid #ffffff;
-}
-
-#taskbar button.active image {
-  opacity: 1;
-}
-
-/* Hover */
-#taskbar button:hover {
-  background-color: rgba(203, 166, 247, 0.4);
+tooltip {
+  background: #1e1e2e;
+  color: @text-main;
+  border: 1px solid @accent;
+  border-radius: 14px;
 }

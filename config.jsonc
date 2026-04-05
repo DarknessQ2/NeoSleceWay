@@ -1,11 +1,4 @@
 {
-  // =====================================================
-  // CONFIGURACIÓN GENERAL DE LA BARRA
-  // 👉 PUEDES TOCAR:
-  // - height → altura de la barra
-  // - position → top / bottom
-  // - margins → separación de la pantalla
-  // =====================================================
   "layer": "top",
   "position": "top",
   "margin-left": 10,
@@ -13,75 +6,63 @@
   "margin-top": 5,
   "height": 48,
 
-  // =====================================================
-  // DISTRIBUCIÓN DE LA BARRA
-  // 👉 PUEDES REORDENAR LOS GRUPOS
-  // 👉 NO BORRES "group/*" si no sabes qué hace
-  // =====================================================
-  "modules-left": ["sway/workspaces", "group/music"],
+  "modules-left": [
+    "sway/workspaces",
+    "group/controles-musica",
+    "custom/musica"   // 👈 ahora está afuera (CLAVE)
+  ],
   "modules-center": ["group/apps"],
-  "modules-right": ["group/sistema", "group/reloj"],
+  "modules-right": [
+    "group/red",
+    "group/brightness",
+    "group/audio",
+    "custom/notification",
+    "group/reloj-drawer",
+    "group/config-drawer"
+  ],
 
-  // =====================================================
-  // WORKSPACES (Sway)
-  // 👉 PUEDES CAMBIAR LOS ICONOS
-  // =====================================================
   "sway/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      "default": "",   // workspace vacío
-      "focused": ""    // workspace activo
+      "default": "",
+      "focused": ""
     }
   },
 
-  // =====================================================
-  // 🎵 MÚSICA (playerctl)
-  // 👉 REQUIERE: playerctl
-  // 👉 SI NO HAY MÚSICA, NO MUESTRA NADA (SAFE)
-  // =====================================================
-  "group/music": {
+
+  "group/controles-musica": {
     "orientation": "horizontal",
     "modules": [
       "custom/prev",
       "custom/play-pause",
-      "custom/next",
-      "custom/music"
+      "custom/next"
     ]
   },
 
-  // 👉 PUEDES CAMBIAR LOS ICONOS
   "custom/prev": {
-    "format": "",
-    "on-click": "playerctl previous 2>/dev/null || true"
+    "format": "󰒮",
+    "on-click": "playerctl previous"
   },
-
   "custom/play-pause": {
-    "format": "  ",
-    "on-click": "playerctl play-pause 2>/dev/null || true"
+    "format": "󰐊",
+    "on-click": "playerctl play-pause"
   },
-
   "custom/next": {
-    "format": " ",
-    "on-click": "playerctl next 2>/dev/null || true"
+    "format": "󰒭",
+    "on-click": "playerctl next"
   },
 
-  // 👉 PUEDES CAMBIAR max-length
-  "custom/music": {
+  "custom/musica": {
+    "exec": "python3 ~/.config/waybar/scripts/memory.py",
+    "return-type": "json",
     "format": "{}",
-    "interval": 2,
-    "exec": "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null || echo ''",
-    "max-length": 25
+    "escape": true
   },
 
-  // =====================================================
-  // 📂 APPS + THEMES
-  // 👉 ES UN CAJÓN DESPLEGABLE
-  // 👉 PUEDES AÑADIR MÁS MODULOS AQUÍ
-  // =====================================================
   "group/apps": {
     "orientation": "horizontal",
     "drawer": {
-      "transition-duration": 400, // animación
+      "transition-duration": 400,
       "click-to-reveal": true
     },
     "modules": [
@@ -91,46 +72,22 @@
     ]
   },
 
-  // 👉 SOLO ICONO DECORATIVO
   "custom/app-folder": {
     "format": "  "
   },
 
-  // =====================================================
-  // 🎨 THEMES
-  // 👉 ESTE BOTÓN EJECUTA UN SCRIPT
-  // 👉 EL USUARIO DEBE CREAR:
-  // ~/.config/waybar/scripts/waybar-theme.sh
-  // 👉 SI NO EXISTE, NO PASA NADA (SAFE)
-  // =====================================================
   "custom/theme": {
-    "format": " 🎨 ",
+    "format": " 󰒓 ",
     "tooltip": "Cambiar tema Waybar",
     "on-click": "bash -c '[ -x \"$HOME/.config/waybar/scripts/waybar-theme.sh\" ] && \"$HOME/.config/waybar/scripts/waybar-theme.sh\" || true'"
   },
 
-  // 👉 MUESTRA APPS ABIERTAS
   "wlr/taskbar": {
     "format": "{icon}",
     "icon-size": 22,
     "on-click": "activate"
   },
 
-  // =====================================================
-  // ⚙ SISTEMA (TODO EN SUBGRUPOS)
-  // 👉 PUEDES QUITAR GRUPOS COMPLETOS SI QUIERES
-  // =====================================================
-  "group/sistema": {
-    "orientation": "horizontal",
-    "modules": [
-      "group/red",
-      "group/audio",
-      "group/brightness",
-      "custom/notification"
-    ]
-  },
-
-  // ================= RED =================
   "group/red": {
     "orientation": "horizontal",
     "drawer": {
@@ -146,25 +103,24 @@
     "format-disconnected": "󰖪 "
   },
 
-"network#ssid": {
-  "format-wifi": "{essid}",
-  "format-disconnected": "Sin conexión",
-  "on-click": "bash -c '[ -x \"$HOME/.config/waybar/scripts/wifi-menu.sh\" ] && \"$HOME/.config/waybar/scripts/wifi-menu.sh\" || true'"
-}
-  // ================= AUDIO =================
-  // 👉 REQUIERE PipeWire / PulseAudio
+  "network#ssid": {
+    "format-wifi": "{essid}",
+    "format-disconnected": "Sin conexión",
+    "on-click": "bash -c '[ -x \"$HOME/.config/waybar/scripts/wifi-menu.sh\" ] && \"$HOME/.config/waybar/scripts/wifi-menu.sh\" || true'"
+  },
+
   "group/audio": {
     "orientation": "horizontal",
     "drawer": {
-      "transition-duration": 400,
-      "click-to-reveal": true
+      "transition-duration": 400
     },
     "modules": ["pulseaudio", "pulseaudio/slider"]
   },
 
   "pulseaudio": {
     "format": "{icon}",
-    "format-icons": ["", ""]
+    "format-icons": ["", " "],
+    "on-click": "pavucontrol"
   },
 
   "pulseaudio/slider": {
@@ -173,9 +129,6 @@
     "orientation": "horizontal"
   },
 
-  // ================= BRILLO =================
-  // 👉 SOLO FUNCIONA EN LAPTOPS
-  // 👉 SI NO EXISTE BACKLIGHT, NO CRASHEA
   "group/brightness": {
     "orientation": "horizontal",
     "drawer": {
@@ -186,7 +139,7 @@
   },
 
   "backlight": {
-    "format": " "
+    "format":   " "
   },
 
   "backlight/slider": {
@@ -195,34 +148,67 @@
     "orientation": "horizontal"
   },
 
-  // ================= NOTIFICACIONES =================
-  // 👉 REQUIERE swaync
   "custom/notification": {
-    "format": " ",
-    "exec": "swaync-client -swb 2>/dev/null || echo ''",
-    "on-click": "swaync-client -t -sw 2>/dev/null || true",
-    "return-type": "json",
-    "interval": 2
+    "format": "󰂚",
+    "on-click": "swaync-client -t"
   },
 
-  // =====================================================
-  // 🕒 RELOJ
-  // 👉 PUEDES CAMBIAR FORMATO DE HORA Y FECHA
-  // =====================================================
-  "group/reloj": {
+  "group/reloj-drawer": {
     "orientation": "horizontal",
     "drawer": {
-      "transition-duration": 400,
+      "transition-duration": 300,
       "click-to-reveal": true
     },
     "modules": ["clock#time", "clock#date"]
   },
 
-  "clock#time": {
-    "format": " {:%H:%M}"
+  "group/config-drawer": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 300,
+      "click-to-reveal": true
+    },
+    "modules": [
+      "custom/config-icon",
+      "custom/power",
+      "custom/reboot",
+      "custom/suspend",
+      "custom/logout"
+    ]
   },
 
+  "clock#time": {
+    "format": "  {:%H:%M}",
+    "tooltip": false
+  },
   "clock#date": {
-    "format": "  {:%d/%m/%Y}"
+    "format": "󰃭  {:%d/%m}",
+    "tooltip": false
+  },
+
+  "custom/config-icon": {
+    "format":"󰒓",
+    "tooltip": false
+  },
+  "custom/power": {
+    "format": "",
+    "on-click": "systemctl poweroff",
+    "tooltip": false
+  },
+  "custom/reboot": {
+    "format": "󰑐",
+    "on-click": "systemctl reboot",
+    "tooltip": false
+  },
+  "custom/suspend": {
+    "format": "󰤄",
+    "on-click": "systemctl suspend",
+    "tooltip": false
+  },
+  "custom/logout": {
+    "format": "󰍃",
+    "on-click":"saymsg exit",
+    "tooltip": false
   }
 }
+

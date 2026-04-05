@@ -3,15 +3,15 @@
  * ============================================================================= */
 
 /* 1) VARIABLES VISUALES */
-@define-color bg-window rgba(20, 20, 20, 0.85);
-@define-color bg-main #2d2d2d;
-@define-color bg-hover #404040;
-@define-color bg-hover-soft #4d4d4d;
-@define-color accent #d1d1d1;
-@define-color accent-alpha rgba(209, 209, 209, 0.4);
-@define-color accent-urgent #bfbfbf;
-@define-color text-main #bfbfbf;
-@define-color text-soft #a3a3a3;
+@define-color bg-window rgba(40, 0, 18, 0.85);
+@define-color bg-main #1e1e2e;
+@define-color bg-hover #313244;
+@define-color bg-hover-soft #585b70;
+@define-color accent #f5c2e7;
+@define-color accent-alpha rgba(245, 194, 231, 0.6);
+@define-color accent-urgent #f38ba8;
+@define-color text-main #f5c2e7;
+@define-color text-soft #f38ba8;
 
 * {
   border: none;

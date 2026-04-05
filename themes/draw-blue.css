@@ -1,168 +1,159 @@
-/*
-WAYBAR THEME: DRAW BLUE (FIXED)
-==============================
+/* =============================================================================
+ * Waybar Style - Catppuccin Mocha (Controles de Música con Burbujas)
+ * ============================================================================= */
 
-GUIA RAPIDA PARA EL USUARIO (QUE TOCAR)
---------------------------------------
-• Reloj (clock): clic izquierdo cambia formato / clic derecho calendario
-• Audio (pulseaudio): clic izquierdo mute / rueda cambia volumen
-• Red (network): clic izquierdo muestra estado
-• Batería (battery): solo visual, cambia color según nivel
-• Workspaces: clic para cambiar de escritorio
-• Ventana (window): solo informativo
-
-GRUPOS VISUALES (QUE HACE CADA UNO)
-----------------------------------
-1) Barra base: fondo, bordes y tipografía general
-2) Workspaces: escritorios activos, ocupados y urgentes
-3) Modulos sistema: red, audio, batería, cpu, memoria
-4) Tiempo: reloj y tooltip
-5) Estados especiales: warning, critical, urgent
-
-Tema enfocado SOLO en tonos azules, sin transparencias rotas
-ni bordes inconsistentes (bugs comunes corregidos).
-*/
-
-/* ==============================
-   1) CONFIGURACION GENERAL
-   ============================== */
+/* 1) VARIABLES VISUALES */
+@define-color bg-window rgba(15, 23, 42, 0.85);
+@define-color bg-main #1e293b;
+@define-color bg-hover #334155;
+@define-color bg-hover-soft #475569;
+@define-color accent #38bdf8;
+@define-color accent-alpha rgba(56, 189, 248, 0.6);
+@define-color accent-urgent #fb7185;
+@define-color text-main #d1d9e1;
+@define-color text-soft #7dd3fc;
 
 * {
     border: none;
-    border-radius: 10px;
-    font-family: JetBrainsMono Nerd Font, monospace;
+    border-radius: 16px;
+    font-family: "JetBrainsMono Nerd Font", monospace;
     font-size: 13px;
     min-height: 0;
+    transition: all 0.25s ease;
 }
 
 window#waybar {
-    background: #0b1220;
-    color: #cfe7ff;
+    background: @bg-window;
 }
 
 /* ==============================
-   2) WORKSPACES
-   ============================== */
-
-#workspaces {
-    margin: 4px 6px;
-    padding: 2px;
-    background: #0f1b33;
-    border-radius: 12px;
+ * 2) BURBUJAS GENERALES
+ * ============================== */
+#workspaces,
+#group-reloj-drawer,
+#group-config-drawer,
+#network,
+#pulseaudio,
+#backlight,
+#battery,
+#cpu,
+#memory,
+#clock,
+#tray,
+#window,
+#custom-notification,
+#custom-musica {
+margin: 6px 4px;
+padding: 2px 12px;
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+font-weight: 600;
 }
 
+/* ==============================
+ * 3) CONTROLES DE MÚSICA Y POWER (Burbujas Independientes)
+ * ============================== */
+#custom-musica,
+#custom-prev,
+#custom-play-pause,
+#custom-next,
+#custom-logout,
+#custom-suspend,
+#custom-reboot,
+#custom-power,
+#custom-config-icon {
+margin: 6px 4px;
+padding: 6px 10px; /* Ajustado para que los de música no sean gigantes */
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+font-weight: 600;
+min-width: 20px;
+}
+
+/* ==============================
+ * 4) HOVER GLOBAL (Incluye música)
+ * ============================== */
+#workspaces:hover,
+#network:hover,
+#pulseaudio:hover,
+#clock:hover,
+#custom-prev:hover,
+#custom-play-pause:hover,
+#custom-next:hover,
+#custom-logout:hover,
+#custom-suspend:hover,
+#custom-reboot:hover,
+#custom-power:hover,
+#custom-config-icon:hover {
+border: 1px solid @accent;
+background: @bg-hover;
+color: @accent;
+}
+
+/* ==============================
+ * 5) WORKSPACES
+ * ============================== */
 #workspaces button {
-    padding: 4px 8px;
-    margin: 2px;
-    color: #7fb8ff;
-    background: transparent;
+padding: 0 5px;
+color: @text-soft;
 }
 
 #workspaces button.active {
-    background: #1e4fd8;
-    color: #ffffff;
+background: @accent;
+color: #1e1e2e;
 }
 
 #workspaces button.urgent {
-    background: #1b3b6f;
-    color: #ffb4b4;
-}
-
-#workspaces button:hover {
-    background: #163a7a;
+background: @accent-urgent;
+color: #1e1e2e;
 }
 
 /* ==============================
-   3) MODULOS SISTEMA
-   ============================== */
+ * 6) SLIDERS Y TOOLTIP
+ * ============================== */
 
-#network,
-#pulseaudio,
-#battery,
-#cpu,
-#memory {
-    margin: 4px 4px;
-    padding: 6px 10px;
-    background: #0f1b33;
+#custom-musica {
+opacity: 1; /* VAR_MUSICA_OP */
+margin: 4px; /* VAR_MUSICA_MAR */
+padding: 4px; /* VAR_MUSICA_PAD */
+}
+
+#custom-prev,
+#custom-play-pause,
+#custom-next {
+opacity: 0; min-width: 0px; margin: 0px; padding: 0px; font-size: 0px; border: 0px solid @accent-alpha;
+background:  @bg-hover;
+color: @accent;
+opacity: 1; min-width: 20px; margin: 6px 4px; padding: 10px 10px; font-size: 13px; border: 1px solid @accent-alpha;
+
+}
+
+
+#custom-musica {
+color: @text-soft;
+background: @bg-main;
+color: @text-main;
+border: 1px solid @accent-alpha;
+margin: 4px; /* VAR_MUSICA_MAR */
+padding: 4px;
+}
+
+scale trough {
+    background-color: @bg-hover;
     border-radius: 10px;
-    color: #b7d9ff;
+    min-width: 70px;
 }
 
-#network.disconnected {
-    color: #6b88aa;
+scale highlight {
+    background-color: @accent;
+    border-radius: 10px;
 }
 
-#pulseaudio.muted {
-    color: #6fa0ff;
-}
-
-#battery.charging {
-    color: #8fd3ff;
-}
-
-#battery.warning {
-    color: #ffd27f;
-}
-
-#battery.critical {
-    color: #ff9a9a;
-}
-
-/* ==============================
-   4) RELOJ
-   ============================== */
-
-#clock {
-    margin: 4px 6px;
-    padding: 6px 14px;
-    background: #13244a;
+tooltip {
+    background: #1e1e2e;
+    color: @text-main;
+    border: 1px solid @accent;
     border-radius: 14px;
-    font-weight: bold;
-    color: #dbeeff;
-}
-
-#clock tooltip {
-    background: #0b1220;
-    color: #cfe7ff;
-    border-radius: 10px;
-}
-
-/* ==============================
-   5) VENTANA ACTIVA
-   ============================== */
-
-#window {
-    margin: 4px 6px;
-    padding: 6px 10px;
-    background: #0f1b33;
-    border-radius: 10px;
-    color: #9ecbff;
-}
-
-/* ==============================
-   6) TRAY
-   ============================== */
-
-#tray {
-    margin: 4px 6px;
-    padding: 6px;
-    background: #0f1b33;
-    border-radius: 10px;
-}
-
-#tray menu {
-    background: #0b1220;
-    color: #cfe7ff;
-}
-
-/* ==============================
-   7) ESTADOS GENERALES
-   ============================== */
-
-.warning {
-    color: #ffd27f;
-}
-
-.critical {
-    color: #ff9a9a;
 }

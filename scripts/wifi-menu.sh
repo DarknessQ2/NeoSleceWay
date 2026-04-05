@@ -1,49 +1,68 @@
 #!/usr/bin/env bash
 
-# =========================
-# UTILIDADES
-# =========================
+ROFI_THEME="$HOME/.config/rofi/sway.rasi"
 
 notify() {
-    command -v notify-send >/dev/null && notify-send "$1" "$2"
+    command -v notify-send >/dev/null && notify-send -u low -i "network-wireless" "Wi-Fi Manager" "$1";
 }
 
-# =========================
-# SELECCIÓN DE RED
-# =========================
+nmcli device wifi rescan &>/dev/null &
 
-chosen_network=$(nmcli -t -f SSID device wifi list \
-    | grep -v '^--' \
-    | awk 'NF && !seen[$0]++' \
-    | rofi -dmenu -i -p "📡 Seleccionar Wi-Fi")
+RAW_NETWORKS=$(nmcli --terse --fields "SSID,SECURITY,BARS" device wifi list | grep -v '^--')
+SAVED_CONNS=$(nmcli --terse --fields "NAME" connection show)
 
-# Cancelado
-[ -z "$chosen_network" ] && exit 0
+MENU="󰑐  Volver a Escanear\n"
+MENU+="--- \n"
 
-# =========================
-# CONEXIÓN EXISTENTE
-# =========================
-
-if nmcli -t -f NAME connection show | grep -Fxq "$chosen_network"; then
-    if nmcli connection up "$chosen_network"; then
-        notify "Wi-Fi" "Conectado a $chosen_network"
-        exit 0
+while IFS=":" read -r ssid security bars; do
+    [[ -z "$ssid" ]] && continue
+    if echo "$SAVED_CONNS" | grep -Fxq "$ssid"; then
+        MENU+="$ssid ✅ ($bars)\n"
+    elif [[ "$security" != "--" ]]; then
+        MENU+="$ssid 🔒 ($bars)\n"
+    else
+        MENU+="$ssid 󰔡 ($bars)\n"
     fi
+done <<< "$RAW_NETWORKS"
+
+MENU+="\n--- \n📂 Olvidar Red Guardada"
+
+# Mostrar Rofi
+CHOICE=$(echo -e "$MENU" | rofi -dmenu -theme "$ROFI_THEME" -p "📡 Wi-Fi" -i)
+[ -z "$CHOICE" ] && exit 0
+
+# Volver a escanear
+if [[ "$CHOICE" == *"Volver a Escanear"* ]]; then
+    notify "Buscando redes nuevas..."
+    nmcli device wifi rescan
+    sleep 1
+    exec "$0"
 fi
 
-# =========================
-# PEDIR CONTRASEÑA
-# =========================
+# Olvidar red
+if [[ "$CHOICE" == *"Olvidar Red Guardada"* ]]; then
+    SAVED_NAME=$(echo "$SAVED_CONNS" | rofi -dmenu -theme "$ROFI_THEME" -p "Seleccionar para borrar")
+    [ -z "$SAVED_NAME" ] && exit 0
+    nmcli connection delete "$SAVED_NAME" && notify "Red olvidada: $SAVED_NAME"
+    exit 0
+fi
 
-password=$(rofi -dmenu -password -p "🔐 Contraseña para $chosen_network")
-[ -z "$password" ] && exit 1
+# Conectar
+SSID=$(echo "$CHOICE" | sed 's/ ✅//; s/ 🔒//; s/ 󰔡//; s/ (.*)$//')
 
-# =========================
-# CONECTAR
-# =========================
+SEC_TYPE=$(nmcli --terse --fields "SSID,SECURITY" device wifi list | grep "^$SSID:" | cut -d: -f2 | head -n1)
 
-if nmcli device wifi connect "$chosen_network" password "$password"; then
-    notify "Wi-Fi" "Conectado a $chosen_network"
+if echo "$SAVED_CONNS" | grep -Fxq "$SSID"; then
+    notify "Conectando a $SSID..."
+    nmcli connection up "$SSID" && notify "Conectado exitosamente"
 else
-    notify "Error Wi-Fi" "No se pudo conectar a $chosen_network"
+    # Red nueva
+    if [[ "$SEC_TYPE" != "--" ]]; then
+        # Pedir contraseña **directamente en la misma línea de Rofi**
+        PASS=$(rofi -dmenu -theme "$ROFI_THEME" -p "🔐 $SSID password" -password)
+        [ -z "$PASS" ] && exit 0
+        nmcli device wifi connect "$SSID" password "$PASS" && notify "Conectado y guardado" || notify "Error al conectar"
+    else
+        nmcli device wifi connect "$SSID" && notify "Conectado a red abierta"
+    fi
 fi

@@ -3,27 +3,27 @@
  * ============================================================================= */
 
 /* 1) VARIABLES VISUALES */
-@define-color bg-window rgba(20, 20, 20, 0.85);
-@define-color bg-main #2d2d2d;
-@define-color bg-hover #404040;
-@define-color bg-hover-soft #4d4d4d;
-@define-color accent #d1d1d1;
-@define-color accent-alpha rgba(209, 209, 209, 0.4);
-@define-color accent-urgent #bfbfbf;
-@define-color text-main #bfbfbf;
-@define-color text-soft #a3a3a3;
+@define-color bg-window rgba(0, 0, 0, 0.85);
+@define-color bg-main #000000;
+@define-color bg-hover #1a1a1a;
+@define-color bg-hover-soft #333333;
+@define-color accent #cccc33;
+@define-color accent-alpha rgba(204, 204, 51, 0.6);
+@define-color accent-urgent #ff6666;
+@define-color text-main #ff0000;
+@define-color text-soft #ff6666;
 
 * {
-  border: none;
-  border-radius: 16px;
-  font-family: "JetBrainsMono Nerd Font", monospace;
-  font-size: 13px;
-  min-height: 0;
-  transition: all 0.25s ease;
+    border: none;
+    border-radius: 16px;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    min-height: 0;
+    transition: all 0.25s ease;
 }
 
 window#waybar {
-  background: @bg-window;
+    background: @bg-window;
 }
 
 /* ==============================
@@ -141,19 +141,19 @@ padding: 4px;
 }
 
 scale trough {
-  background-color: @bg-hover;
-  border-radius: 10px;
-  min-width: 70px;
+    background-color: @bg-hover;
+    border-radius: 10px;
+    min-width: 70px;
 }
 
 scale highlight {
-  background-color: @accent;
-  border-radius: 10px;
+    background-color: @accent;
+    border-radius: 10px;
 }
 
 tooltip {
-  background: #1e1e2e;
-  color: @text-main;
-  border: 1px solid @accent;
-  border-radius: 14px;
+    background: #1e1e2e;
+    color: @text-main;
+    border: 1px solid @accent;
+    border-radius: 14px;
 }

@@ -1,0 +1,1 @@
+swaymsg output VGA-2 pos 0 0
