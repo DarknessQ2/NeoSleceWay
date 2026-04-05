@@ -94,7 +94,7 @@
     <li>Copia al portapapeles con un clic</li>
     <li>Vaciar portapapeles desde Rofi</li>
 </ul>
-<img src="./assets/Captura de pantalla_2026-04-05_11-02-28.png" alt="Captura de Clipboard">
+<img src="./assets/Captura de pantalla_2026-04-04_23-58-22.png" alt="Captura de Clipboard">
 
 <h3>⚙️ Configuración de Módulos</h3>
 <ul>
@@ -108,7 +108,7 @@
     </li>
     <li>Personalización fácil vía Rofi</li>
 </ul>
-<img src="./assets/Captura de pantalla_2026-04-04_23-58-22.png" alt="Captura de Configuración de Módulos">
+<img src="./assets/Captura de pantalla_2026-04-05_11-02-28.png" alt="Captura de Configuración de Módulos">
 
 <h3>🖼 Wallpapers</h3>
 <ul>
